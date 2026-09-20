@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "note": "Every clause is a complete, standalone sentence. This is deliberate - see DECISIONS.md #1. Any combination of one clause per slot produces grammatical English.",
+  "slots": [
+    {
+      "id": "recognition",
+      "order": 1,
+      "label": "Recognize where they are",
+      "clauses": [
+        { "id": "r01", "en": "I don't know what you're carrying right now." },
+        { "id": "r02", "en": "Things sound heavy where you are." },
+        { "id": "r03", "en": "You made it here, and that counts." },
+        { "id": "r04", "en": "Whatever brought you here, it's real." },
+        { "id": "r05", "en": "This is a hard place to be." },
+        { "id": "r06", "en": "You're allowed to be tired." },
+        { "id": "r07", "en": "It takes something to reach out." },
+        { "id": "r08", "en": "You don't have to explain yourself here." },
+        { "id": "r09", "en": "Some days ask too much of us." },
+        { "id": "r10", "en": "You're not wrong for finding this hard." }
+      ]
+    },
+    {
+      "id": "shared",
+      "order": 2,
+      "label": "Share that you've been there",
+      "clauses": [
+        { "id": "s01", "en": "I've been at a low point too." },
+        { "id": "s02", "en": "I've had days I couldn't explain to anyone." },
+        { "id": "s03", "en": "I've felt far away from everyone." },
+        { "id": "s04", "en": "I've been somewhere nothing seemed to move." },
+        { "id": "s05", "en": "I've sat with the same kind of weight." },
+        { "id": "s06", "en": "I didn't think I'd get through mine." },
+        { "id": "s07", "en": "I've had my own version of this." },
+        { "id": "s08", "en": "I've lost track of why I was trying, once." },
+        { "id": "s09", "en": "I've needed someone to say this to me before." },
+        { "id": "s10", "en": "I've been further down than I let on." }
+      ]
+    },
+    {
+      "id": "encouragement",
+      "order": 3,
+      "label": "Offer something they can actually do",
+      "clauses": [
+        { "id": "e01", "en": "You don't have to handle all of it today." },
+        { "id": "e02", "en": "Small steps still count." },
+        { "id": "e03", "en": "You're doing more than you think." },
+        { "id": "e04", "en": "Go gently with yourself." },
+        { "id": "e05", "en": "You don't have to do this alone." },
+        { "id": "e06", "en": "Rest is allowed." },
+        { "id": "e07", "en": "You don't owe anyone a strong face." },
+        { "id": "e08", "en": "One hour at a time is enough." },
+        { "id": "e09", "en": "Let someone help if they offer." },
+        { "id": "e10", "en": "You're permitted to put some of it down." }
+      ]
+    },
+    {
+      "id": "hope",
+      "order": 4,
+      "label": "Point forward",
+      "clauses": [
+        { "id": "h01", "en": "It won't always feel like this." },
+        { "id": "h02", "en": "I'm rooting for you." },
+        { "id": "h03", "en": "There's more ahead than you can see right now." },
+        { "id": "h04", "en": "You're not the only one." },
+        { "id": "h05", "en": "I hope things get lighter for you." },
+        { "id": "h06", "en": "Things can still change." },
+        { "id": "h07", "en": "I'm glad you're here." },
+        { "id": "h08", "en": "Someone is better off because you exist." },
+        { "id": "h09", "en": "The version of you that gets through this is real." },
+        { "id": "h10", "en": "I'll be hoping for you from here." }
+      ]
+    }
+  ]
+}
