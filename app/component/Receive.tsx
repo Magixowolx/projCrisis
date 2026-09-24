@@ -6,11 +6,15 @@ type Message = {
     id: number; 
     country: string | null; 
     handle: string | null;
-    lines: string[] };
+    lines: string[]
+  };
+
 
 type Status = 'idle' | 'loading' | 'done' | 'empty' | 'error';
 
 export default function Receive() {
+
+  const [repeat, setRepeat] = useState(false); 
   const [messages, setMessages] = useState<Message[]>([]);
   const [status, setStatus] = useState<Status>('idle');
 
@@ -23,6 +27,9 @@ export default function Receive() {
         return;
       }
       const data = await res.json();
+
+      setRepeat(Boolean(data.repeat));
+
       if (!data.messages || data.messages.length === 0) {
         setStatus('empty');
         return;
@@ -53,7 +60,9 @@ export default function Receive() {
           </blockquote>
         ))}
         <p className="text-sm text-gray-500">
-          These were written for you. They won&apos;t be shown again.
+          {repeat
+          ? 'These are still yours. New messages will be here later.'
+          : "These were written for you. They won't be shown again."}
         </p>
       </div>
     );

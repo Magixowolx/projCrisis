@@ -5,7 +5,7 @@ import type { Slot, SlotId } from '@/lib/clauses';
 import type { Handle } from '@/lib/handles';
 
 
-type Status = 'idle' | 'sending' | 'sent' | 'error';
+type Status = 'idle' | 'sending' | 'sent' | 'error' | 'tooSoon';
 
 export default function Composer({ slots, handle }: { slots: Slot[]; handle: Handle }) {
   const ordered = [...slots].sort((a, b) => a.order - b.order);
@@ -34,12 +34,14 @@ export default function Composer({ slots, handle }: { slots: Slot[]; handle: Han
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(picked),
       });
+      if (res.status === 429) { setStatus('tooSoon'); return; }
       setStatus(res.ok ? 'sent' : 'error');
     } catch {
       setStatus('error');
     }
   }
 
+  
   if (status === 'sent') {
     return (
       <div className="mt-8">
