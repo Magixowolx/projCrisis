@@ -14,10 +14,11 @@ type Row = {
   country: string | null;
   handle_adjective: string | null;
   handle_noun: string | null;
+  signature_emoji: string | null;
 };
 
 const COLUMNS =
-  'id, recognition_id, shared_id, encouragement_id, hope_id, country, handle_adjective, handle_noun';
+  'id, recognition_id, shared_id, encouragement_id, hope_id, country, handle_adjective, handle_noun, signature_emoji';
 
 function shape(rows: Row[]) {
   return rows
@@ -34,6 +35,7 @@ function shape(rows: Row[]) {
         clauseText('encouragement', row.encouragement_id),
         clauseText('hope', row.hope_id),
       ],
+      signatureEmoji: row.signature_emoji,
     }))
     .filter((m) => m.lines.every((l) => l !== null));
 }

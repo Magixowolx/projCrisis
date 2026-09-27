@@ -3,16 +3,15 @@
 import { useState } from 'react';
 import type { Slot, SlotId } from '@/lib/clauses';
 import type { Handle } from '@/lib/handles';
-
+import type { Identity } from '@/lib/visitor';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error' | 'tooSoon';
 
-export default function Composer({ slots, handle }: { slots: Slot[]; handle: Handle }) {
+export default function Composer({ slots, identity }: { slots: Slot[]; identity: Identity }) {
   const ordered = [...slots].sort((a, b) => a.order - b.order);
   
   const [picked, setPicked] = useState<Partial<Record<SlotId, string>>>({});
   const [status, setStatus] = useState<Status>('idle');
-
 
   const complete = ordered.every((s) => picked[s.id]);
 
@@ -89,8 +88,8 @@ export default function Composer({ slots, handle }: { slots: Slot[]; handle: Han
         <p className="mt-2 min-h-[3rem]">
           {preview || <span className="text-gray-400">Your message appears here.</span>}
         </p>
-        <p className="mt-3 text-xs text-gray-500">
-          — {handle.adjective} {handle.noun}
+        <p className="mt-6 text-right text-[0.975rem] italic text-star-dim">
+        {identity.signature} {identity.adjective} {identity.noun}
         </p>
       </div>
 

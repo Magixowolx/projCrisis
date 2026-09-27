@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import Receive from './component/Receive';
-import HandlePicker from './component/HandlePicker';
-import { readHandle } from '@/lib/visitor';
+import IdentityPanel from './component/Identity';
+import { readHandle, readIdentity } from '@/lib/visitor';
 
 export default async function Home() {
-  const handle = await readHandle();
+  const identity = await readIdentity();
 
   return (
     <main className="mx-auto max-w-xl p-6">
@@ -12,7 +12,11 @@ export default async function Home() {
       <Receive />
 
       <div className="mt-12 border-t pt-6">
-        <HandlePicker current={handle} />
+      {identity && (
+        <div className="mt-20">
+          <IdentityPanel identity={identity} compact />
+        </div>
+      )}
         <Link href="/send" className="mt-10 inline-block text-sm underline">
           Write a message for someone else
         </Link>

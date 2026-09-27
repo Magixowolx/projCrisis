@@ -1,10 +1,13 @@
 import { slots } from '@/lib/clauses';
 import Composer from './Composer';
-import HandlePicker from '../component/HandlePicker';
-import { readHandle } from '@/lib/visitor';
+import { readHandle, readIdentity, getOrCreateVisitor } from '@/lib/visitor';
+import { readUnreported } from '@/lib/reads';
 
 export default async function SendPage() {
   const handle = await readHandle();
+  const identity = await readIdentity();
+  const visitorID = await getOrCreateVisitor();
+  const unreported = await readUnreported(visitorID);
 
   return (
     <main className="mx-auto max-w-xl p-6">
@@ -12,15 +15,19 @@ export default async function SendPage() {
       <p className="mt-2 text-sm text-gray-600">
         Pick one line for each part. Your message goes to someone having a hard time.
       </p>
-      {handle ? (
-        <Composer slots={slots} handle={handle} />
+      {identity ? (
+        <Composer slots={slots} identity={identity} />
       ) : (
         <div className="mt-8">
           <p className="text-sm">Choose a name before you write.</p>
-          <div className="mt-4">
-            <HandlePicker current={null} />
-          </div>
         </div>
+      )}
+      {unreported > 0 && (
+        <p className="text-[0.95rem] text-star-dim">
+          {unreported === 1
+            ? 'Someone read your message.'
+            : `${unreported} people read your messages.`}
+        </p>
       )}
     </main>
   );

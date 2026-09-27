@@ -7,6 +7,7 @@ type Message = {
     country: string | null; 
     handle: string | null;
     lines: string[]
+    signatureEmoji: string | null;
   };
 
 
@@ -52,9 +53,9 @@ export default function Receive() {
               </p>
             ))}
 
-            {(m.handle || m.country) && (
+            {(m.signatureEmoji || m.handle || m.country) && (
             <footer className="mt-2 text-xs text-gray-500">
-                {[m.handle, m.country].filter(Boolean).join(' · ')}
+              {[m.signatureEmoji, m.handle, m.country].filter(Boolean).join('  ')}
             </footer>
             )}
           </blockquote>

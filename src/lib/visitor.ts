@@ -2,12 +2,35 @@ import { cookies } from 'next/headers';
 import { randomUUID } from 'crypto';
 import { supabase } from './supabase';
 import { Handle } from './handles';
+import { randomHandles } from './handles';
 
 const COOKIE_NAME = 'pc_visitor';
 const ONE_YEAR = 60 * 60 * 24 * 365;
 
 const UUID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export type Identity = { adjective: string; noun: string; signature: string };
+
+export async function readIdentity(): Promise<Identity | null> {
+  const id = await readVisitor();
+  if (!id) return null;
+
+  const { data } = await supabase
+    .from('visitors')
+    .select('handle_adjective, handle_noun, signature_emoji')
+    .eq('id', id)
+    .maybeSingle();
+
+  if (!data?.handle_adjective || !data?.handle_noun) return null;
+
+  return {
+    adjective: data.handle_adjective,
+    noun: data.handle_noun,
+    signature: data.signature_emoji ?? '🤍',
+  };
+}
+
 
 export async function readVisitor(): Promise<string | null> {
   const jar = await cookies();
@@ -41,7 +64,13 @@ export async function getOrCreateVisitor(): Promise<string> {
   }
 
   const id = randomUUID();
-  await supabase.from('visitors').insert({ id });
+  const starter = randomHandles(1)[0];
+  await supabase.from('visitors').insert({
+  id,
+  handle_adjective: starter.adjective,
+  handle_noun: starter.noun,
+  signature_emoji: '🤍',
+  });
 
   jar.set(COOKIE_NAME, id, {
     httpOnly: true,
@@ -52,4 +81,5 @@ export async function getOrCreateVisitor(): Promise<string> {
   });
 
   return id;
+
 }

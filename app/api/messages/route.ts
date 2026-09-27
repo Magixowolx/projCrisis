@@ -29,10 +29,10 @@ export async function POST(request: NextRequest) {
 
   const visitorId = await getOrCreateVisitor();
   const { data: visitor } = await supabase
-    .from('visitors')
-    .select('handle_adjective, handle_noun, last_sent_at')
-    .eq('id', visitorId)
-    .maybeSingle();
+  .from('visitors')
+  .select('handle_adjective, handle_noun, signature_emoji, last_sent_at')
+  .eq('id', visitorId)
+  .maybeSingle();
   if (!visitor?.handle_adjective || !visitor?.handle_noun) {
     return NextResponse.json({ error: 'Choose a name first' }, 
       { status: 400 }
@@ -57,6 +57,7 @@ export async function POST(request: NextRequest) {
     sender_visitor_id: visitorId,
     handle_adjective: visitor.handle_adjective,
     handle_noun: visitor.handle_noun,
+    signature_emoji: visitor.signature_emoji,
   });
 
 

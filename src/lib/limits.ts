@@ -1,4 +1,4 @@
-export const RECEIVE_COOLDOWN_MS = 60 * 60 * 1000; // 1 hour
+export const RECEIVE_COOLDOWN_MS = 10 * 1000; // 10 seconds
 export const SEND_COOLDOWN_MS = 60 * 1000;         // 1 minute
 
 export function remainingMs(last: string | null, cooldownMs: number): number {
