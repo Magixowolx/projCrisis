@@ -10,7 +10,7 @@ export default async function SendPage() {
   const unreported = await readUnreported(visitorID);
 
   return (
-    <main className="flex flex-1 flex-col items-center justify-center px-6">
+    <main className="mx-auto max-w-xl p-6">
       <h1 className="text-2xl font-semibold">Write a message</h1>
       <p className="mt-2 text-sm text-gray-600">
         Pick one line for each part. Your message goes to someone having a hard time.
