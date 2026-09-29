@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --color-night:      #131A30;
+  --color-night-deep: #0C1120;
+  --color-star:       #F2EBDC;
+  --color-star-dim:   #98A1BC;
+  --color-star-faint: #414B6B;
+  --text-message: 1.375rem;
+  --text-message--line-height: 1.72;
+}
+
+.btn {
+  border: 1px solid var(--color-star-faint);
+  border-radius: 2px;
+  padding: 0.8rem 1.75rem;
+  color: var(--color-star);
+  transition: border-color 300ms ease, background 300ms ease;
+}
+.btn:hover { border-color: var(--color-star-dim); background: rgba(242,235,220,.04); }
+.btn:disabled { opacity: .4; }
+
+:focus-visible { outline: 2px solid var(--color-star); outline-offset: 3px; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+.rise { animation: rise 900ms cubic-bezier(.2,.6,.2,1) backwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise { animation: none; }
+}

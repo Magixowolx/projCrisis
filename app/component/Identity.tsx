@@ -7,6 +7,7 @@ import { randomHandles, type Handle } from '@/lib/handles';
 import { SIGNATURES, randomSignature } from '@/lib/signatures';
 import type { Identity } from '@/lib/visitor';
 
+
 function rollOne(): Handle {
   return randomHandles(1)[0];
 }
