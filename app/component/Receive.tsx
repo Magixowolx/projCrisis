@@ -74,7 +74,7 @@ export default function Receive() {
           {current.lines.map((line, i) => (
             <p
               key={i}
-              className="rise mb-4 text-message"
+              className="rise mb-4 text-lg"
               style={{ animationDelay: `${i * 140}ms` }}
             >
               {line}
@@ -128,7 +128,7 @@ export default function Receive() {
 
   return (
     <div className="w-full max-w-[30rem]">
-      <p className="text-message mx-auto block">Someone wrote something for you.</p>
+      <p className="text-message text-center">Someone wrote something for you.</p>
 
       {/* [5] was bg-black text-white */}
       <button

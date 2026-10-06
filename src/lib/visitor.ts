@@ -21,7 +21,6 @@ export async function readIdentity(): Promise<Identity | null> {
     .select('handle_adjective, handle_noun, signature_emoji')
     .eq('id', id)
     .maybeSingle();
-
   if (!data?.handle_adjective || !data?.handle_noun) return null;
 
   return {

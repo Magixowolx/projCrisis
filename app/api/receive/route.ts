@@ -67,6 +67,7 @@ export async function POST() {
 
   // Outside the cooldown: claim fresh ones.
   const { data, error } = await supabase.rpc('claim_messages', {
+    p_visitor_id: visitorId,
     p_limit: 3,
     p_view_cap: 2,
   });

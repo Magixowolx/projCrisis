@@ -16,7 +16,7 @@ export default function RootLayout({
         <div className="flex min-h-dvh flex-col">
           {children}
 
-          <footer className="px-6 pb-6 pt-5 text-center text-sm">
+          <footer className="px-6 pb-6 pt-5 text-left text-sm text-star-dim">
             If you need someone now,{' '}
             <a
               href="https://findahelpline.com"

@@ -4,9 +4,10 @@ import { readHandle, readIdentity, getOrCreateVisitor } from '@/lib/visitor';
 import { readUnreported } from '@/lib/reads';
 
 export default async function SendPage() {
+  const visitorID = await getOrCreateVisitor();
   const handle = await readHandle();
   const identity = await readIdentity();
-  const visitorID = await getOrCreateVisitor();
+
   const unreported = await readUnreported(visitorID);
 
   return (
