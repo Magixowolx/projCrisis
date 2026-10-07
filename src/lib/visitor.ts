@@ -55,10 +55,32 @@ export async function getOrCreateVisitor(): Promise<string> {
   const existing = jar.get(COOKIE_NAME)?.value;
 
   if (existing && UUID_RE.test(existing)) {
-    // The cookie can outlive the database row (wiped dev data, etc).
-    await supabase
+    // Proxy assigns the cookie before rendering. Seed identity fields when its
+    // visitor row is first created (or after a dev database reset).
+    const starter = randomHandles(1)[0];
+    const { data: visitor } = await supabase
       .from('visitors')
-      .upsert({ id: existing }, { onConflict: 'id', ignoreDuplicates: true });
+      .select('handle_adjective, handle_noun, signature_emoji')
+      .eq('id', existing)
+      .maybeSingle();
+
+    if (!visitor) {
+      await supabase.from('visitors').insert({
+        id: existing,
+        handle_adjective: starter.adjective,
+        handle_noun: starter.noun,
+        signature_emoji: '🤍',
+      });
+    } else if (!visitor.handle_adjective || !visitor.handle_noun) {
+      await supabase
+        .from('visitors')
+        .update({
+          handle_adjective: visitor.handle_adjective ?? starter.adjective,
+          handle_noun: visitor.handle_noun ?? starter.noun,
+          signature_emoji: visitor.signature_emoji ?? '🤍',
+        })
+        .eq('id', existing);
+    }
     return existing;
   }
 

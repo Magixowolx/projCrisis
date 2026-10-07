@@ -11,9 +11,9 @@ export default async function SendPage() {
   const unreported = await readUnreported(visitorID);
 
   return (
-    <main className="mx-auto max-w-xl p-6">
+    <main className="mx-auto w-full max-w-xl flex-1 p-6">
       <h1 className="text-2xl font-semibold">Write a message</h1>
-      <p className="mt-2 text-sm text-gray-600">
+      <p className="mt-2 text-sm text-star-dim">
         Pick one line for each part. Your message goes to someone having a hard time.
       </p>
       {identity ? (
@@ -24,7 +24,7 @@ export default async function SendPage() {
         </div>
       )}
       {unreported > 0 && (
-        <p className="text-[0.95rem] text-star-dim">
+        <p className="mt-3 text-[0.95rem] text-star-dim">
           {unreported === 1
             ? 'Someone read your message.'
             : `${unreported} people read your messages.`}

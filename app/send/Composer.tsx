@@ -14,14 +14,23 @@ export default function Composer({ slots, identity }: { slots: Slot[]; identity:
   const [status, setStatus] = useState<Status>('idle');
 
   const complete = ordered.every((s) => picked[s.id]);
+  const firstUnanswered = ordered.findIndex((slot) => !picked[slot.id]);
+  const visibleCount = firstUnanswered === -1 ? ordered.length : firstUnanswered + 1;
 
   const preview = ordered
     .map((s) => s.clauses.find((c) => c.id === picked[s.id])?.en)
     .filter(Boolean)
-    .join(' ');
+    .join('\n');
 
   function choose(slotId: SlotId, clauseId: string) {
-    setPicked((prev) => ({ ...prev, [slotId]: clauseId }));
+    setPicked((prev) => {
+      const next = { ...prev, [slotId]: clauseId };
+      if (!clauseId) {
+        const slotIndex = ordered.findIndex((slot) => slot.id === slotId);
+        for (const slot of ordered.slice(slotIndex + 1)) delete next[slot.id];
+      }
+      return next;
+    });
     setStatus('idle');
   }
 
@@ -60,16 +69,16 @@ export default function Composer({ slots, identity }: { slots: Slot[]; identity:
 
   return (
     <div className="mt-8 space-y-6"> 
-      {ordered.map((slot) => ( //looks through the slots and creates a dropdown for each slot
-        <div key={slot.id}>
-          <label htmlFor={slot.id} className="block text-sm font-medium">
+      {ordered.slice(0, visibleCount).map((slot) => (
+        <div key={slot.id} className="rise">
+          <label htmlFor={slot.id} className="block text-[clamp(0.8rem,calc(0.75rem+0.2vw),0.95rem)] font-medium text-star-dim">
             {slot.label}
           </label>
           <select
             id={slot.id}
             value={picked[slot.id] ?? ''}
             onChange={(e) => choose(slot.id, e.target.value)}
-            className="mt-1 w-full rounded border p-2"
+            className="mt-1 w-full rounded border border-star-faint bg-night p-2 text-base text-star"
           >
             <option value="">Choose one…</option>
             {slot.clauses.map((c) => (
@@ -83,23 +92,34 @@ export default function Composer({ slots, identity }: { slots: Slot[]; identity:
 
 
 
-      <div className="rounded bg-gray-50 p-4">
-        <p className="text-xs uppercase tracking-wide text-gray-500">Preview</p>
-        <p className="mt-2 min-h-[3rem]">
-          {preview || <span className="text-gray-400">Your message appears here.</span>}
-        </p>
+      <div className="rounded border border-star-faint bg-night p-4 text-star">
+        <p className="text-xs uppercase tracking-wide text-star-dim">Preview</p>
+        <div className="mt-2 min-h-[3rem] whitespace-pre-line font-message">
+          {ordered.map((slot) => {
+            const clause = slot.clauses.find((candidate) => candidate.id === picked[slot.id]);
+            if (!clause) return null;
+            return (
+              <span key={`${slot.id}-${clause.id}`} className="rise block">
+                {clause.en}
+              </span>
+            );
+          })}
+          {!preview && <span className="text-star-dim">Your message appears here.</span>}
+        </div>
         <p className="mt-6 text-right text-[0.975rem] italic text-star-dim">
         {identity.signature} {identity.adjective} {identity.noun}
         </p>
       </div>
 
-      <button
-        onClick={submit}
-        disabled={!complete || status === 'sending'}
-        className="rounded bg-black px-4 py-2 text-white disabled:opacity-40"
-      >
-        {status === 'sending' ? 'Sending…' : 'Send'}
-      </button>
+      {complete && (
+        <button
+          onClick={submit}
+          disabled={status === 'sending'}
+          className="rounded bg-send-button px-4 py-2 text-night transition-colors hover:bg-star disabled:opacity-60"
+        >
+          {status === 'sending' ? 'Sending…' : 'Send'}
+        </button>
+      )}
 
       {status === 'error' && (
         <p className="text-sm text-red-600">Something went wrong. Try again.</p>

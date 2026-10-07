@@ -6,6 +6,8 @@
     --color-star:       #F0E4CC;   /* warm cream */
     --color-star-dim:   #A99B84;
     --color-star-faint: #4A4034;
+    --color-send-button: var(--color-star-dim);
+    --font-message: cursive;
 }
 
 body {

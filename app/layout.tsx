@@ -1,5 +1,12 @@
 import type { Metadata } from 'next';
+import { Caveat } from 'next/font/google';
 import './global.css';
+
+const caveat = Caveat({
+  subsets: ['latin'],
+  variable: '--font-caveat',
+  display: 'swap',
+});
 export const metadata: Metadata = {
   title: 'Project Crisis',
   description: 'A message from someone who has been there.',
@@ -11,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={caveat.variable}>
       <body className="bg-night text-star">
         <div className="flex min-h-dvh flex-col">
           {children}
