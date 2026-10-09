@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type Message = {
   id: number;
@@ -12,13 +12,25 @@ type Message = {
 
 type Status = 'idle' | 'loading' | 'done' | 'empty' | 'error';
 
-export default function Receive() {
-  const [repeat, setRepeat] = useState(false);
+export default function Receive({ onFinalMessageReady, onReadingChange, onRepeatChange }: { onFinalMessageReady: (ready: boolean) => void; onReadingChange: (reading: boolean) => void; onRepeatChange: (repeat: boolean) => void }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [status, setStatus] = useState<Status>('idle');
 
   // [6] which of the three you're currently reading
   const [index, setIndex] = useState(0);
+  useEffect(() => {
+    onReadingChange(status === 'loading' || status === 'done');
+  }, [status, onReadingChange]);
+
+  useEffect(() => {
+    if (status !== 'done' || messages.length === 0 || index !== messages.length - 1) {
+      onFinalMessageReady(false);
+      return;
+    }
+
+    const timeout = window.setTimeout(() => onFinalMessageReady(true), 4000);
+    return () => window.clearTimeout(timeout);
+  }, [status, index, messages.length, onFinalMessageReady]);
 
   async function receive() {
     setStatus('loading');
@@ -30,7 +42,7 @@ export default function Receive() {
       }
       const data = await res.json();
 
-      setRepeat(Boolean(data.repeat));
+      onRepeatChange(Boolean(data.repeat));
 
       if (!data.messages || data.messages.length === 0) {
         setStatus('empty');
@@ -74,7 +86,7 @@ export default function Receive() {
           {current.lines.map((line, i) => (
             <p
               key={i}
-              className="rise mb-4 text-lg font-message"
+              className="rise mb-4 text-xl font-message"
               style={{ animationDelay: `${i * 140}ms` }}
             >
               {line}
@@ -93,21 +105,27 @@ export default function Receive() {
           )}
         </div>
 
-        <div className="mt-12 text-center">
-          {last ? (
-            /* [5] was text-gray-500 */
-            <p className="text-[0.95rem] text-star-dim">
-              {repeat
-                ? 'These are still yours. New ones will be here later.'
-                : 'These were written for you. They won\u2019t be shown again.'}
-            </p>
-          ) : (
-            /* [6] advance instead of showing everything at once */
-            <button onClick={() => setIndex(index + 1)} className="btn">
-              Next
+        <div className="mt-8 flex items-center justify-center gap-3">
+          {index > 0 && (
+            <button
+              onClick={() => setIndex(index - 1)}
+              aria-label="Previous message"
+              className="px-3 py-1 text-3xl text-star-dim transition-colors hover:text-star"
+            >
+              ‹
+            </button>
+          )}
+          {!last && (
+            <button
+              onClick={() => setIndex(index + 1)}
+              aria-label="Next message"
+              className="px-3 py-1 text-3xl text-star-dim transition-colors hover:text-star"
+            >
+              ›
             </button>
           )}
         </div>
+
       </div>
     );
   }

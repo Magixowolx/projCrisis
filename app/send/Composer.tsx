@@ -54,17 +54,17 @@ export default function Composer({ slots, identity }: { slots: Slot[]; identity:
     return (
       <div className="mt-8">
         <p className="text-lg">Sent. Someone will read it.</p>
-        <button
-          onClick={() => {
-            setPicked({});
-            setStatus('idle');
-          }}
-          className="mt-4 inline-block rounded border border-star-faint px-4 py-2 text-lg underline"
-        >
-          Write another
-        </button>
-        <div className="mt-2">
-          <Link href="/" className="inline-block rounded border border-star-faint px-4 py-2 font-sans text-lg underline">
+        <div className="mt-4 flex items-center gap-3">
+          <button
+            onClick={() => {
+              setPicked({});
+              setStatus('idle');
+            }}
+            className="inline-block rounded border border-star-faint bg-star-dim px-4 py-2 text-lg text-night transition-colors hover:bg-star disabled:opacity-60"
+          >
+            Write another
+          </button>
+          <Link href="/" className="inline-block rounded border border-star-faint px-4 py-2 font-sans text-lg text-star-dim">
             Return
           </Link>
         </div>

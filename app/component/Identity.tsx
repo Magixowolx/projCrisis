@@ -74,7 +74,7 @@ export default function IdentityPanel({
           {candidate.signature} {candidate.adjective} {candidate.noun}
         </p>
         <div className="mt-3 flex flex-wrap gap-3">
-          <button onClick={reroll} disabled={saving} className="underline underline-offset-4">⟳ name</button>
+          <button onClick={reroll} disabled={saving} className="underline underline-offset-4">new name</button>
           {!same(candidate, { adjective: identity.adjective, noun: identity.noun }) && (
             <button onClick={() => save({ adjective: candidate.adjective, noun: candidate.noun })} disabled={saving} className="underline underline-offset-4 text-star">Use this name</button>
           )}
@@ -107,18 +107,34 @@ export default function IdentityPanel({
             {candidate.signature} {candidate.adjective} {candidate.noun}
           </p>
           <div className="mt-3 flex flex-wrap gap-3">
-            <button onClick={reroll} disabled={saving} className="underline underline-offset-4">🔄️ name</button>
-            {!same(candidate, { adjective: identity.adjective, noun: identity.noun }) && (
-              <button onClick={() => save({ adjective: candidate.adjective, noun: candidate.noun })} disabled={saving} className="underline underline-offset-4 text-star">Use this name</button>
-            )}
+            <button onClick={reroll} disabled={saving} className="underline underline-offset-4">new name</button>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
-            <button onClick={rerollSignature} disabled={saving} className="underline underline-offset-4">🔄️ signature</button>
-            {candidate.signature !== identity.signature && (
-              <button onClick={() => save({ signature: candidate.signature })} disabled={saving} className="underline underline-offset-4 text-star">Use this signature</button>
-            )}
+            <button onClick={rerollSignature} disabled={saving} className="underline underline-offset-4">new signature</button>
           </div>
-          <button onClick={() => setOpen(false)} className="mt-4 underline underline-offset-4">Done</button>
+          <div className="mt-4 flex items-center gap-3">
+            <button
+              onClick={() => {
+                save({
+                  signature: candidate.signature,
+                  adjective: candidate.adjective,
+                  noun: candidate.noun,
+                });
+                setOpen(false);
+              }}
+              disabled={saving}
+              className="underline underline-offset-4 text-star"
+            >
+              Save
+            </button>
+
+            <button
+              onClick={() => setOpen(false)}
+              className="underline underline-offset-4"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       )}
     </div>
