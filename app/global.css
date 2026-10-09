@@ -4,25 +4,27 @@
     --color-night:      #1C1711;   /* deep warm brown-black */
     --color-night-deep: #120E09;
     --color-star:       #F0E4CC;   /* warm cream */
-    --color-star-dim:   #A99B84;
+    --color-star-dim:   #8A7D68;
     --color-star-faint: #4A4034;
     --color-send-button: var(--color-star-dim);
-    --font-message: cursive;
+    --font-message: ;
 }
 
 body {
   background: linear-gradient(
     to bottom,
     var(--color-star-dim) 0%,
-    var(--color-night-deep) 20%,
+    var(--color-night-deep) 30%,
     var(--color-night-deep) 100%
   );
 }
+
 .btn {
   border: 1px solid var(--color-star-faint);
   border-radius: 2px;
-  padding: 0.8rem 1.75rem;
+  padding: clamp(0.8rem, calc(0.65rem + 0.8vw), 1.1rem) clamp(1.75rem, calc(1.25rem + 1.1vw), 2.25rem);
   color: var(--color-star);
+  font-size: clamp(1rem, calc(0.9rem + 0.45vw), 1.25rem);
   transition: border-color 300ms ease, background 300ms ease;
 }
 .btn:hover { border-color: var(--color-star-dim); background: rgba(242,235,220,.04); }

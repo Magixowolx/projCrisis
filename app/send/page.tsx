@@ -1,5 +1,6 @@
 import { slots } from '@/lib/clauses';
 import Composer from './Composer';
+import Link from 'next/link';
 import { readHandle, readIdentity, getOrCreateVisitor } from '@/lib/visitor';
 import { readUnreported } from '@/lib/reads';
 
@@ -11,9 +12,9 @@ export default async function SendPage() {
   const unreported = await readUnreported(visitorID);
 
   return (
-    <main className="mx-auto w-full max-w-xl flex-1 p-6">
+    <main className="mx-auto w-full max-w-xl flex-1 px-8 pb-6 pt-24 sm:px-10 lg:px-16">
       <h1 className="text-2xl font-semibold">Write a message</h1>
-      <p className="mt-2 text-sm text-star-dim">
+      <p className="mt-2 text-base leading-relaxed text-star-dim">
         Pick one line for each part. Your message goes to someone having a hard time.
       </p>
       {identity ? (

@@ -51,7 +51,7 @@ export default function Receive() {
     const last = index === messages.length - 1;
 
     return (
-      <div className="w-full max-w-[30rem] text-left">
+      <div className="w-full max-w-[30rem] px-2 pt-10 text-left">
 
         {/* [7] three stars: which message you're on, and the metaphor */}
         <div className="mb-12 flex justify-center gap-6" aria-hidden="true">
@@ -114,7 +114,7 @@ export default function Receive() {
 
   if (status === 'empty') {
     return (
-      <div className="w-full max-w-[30rem]">
+      <div className="w-full max-w-[30rem] px-2 pt-10">
         <p className="rise font-message">No one has left a message tonight.</p>
         <p
           className="rise mt-5 text-[0.95rem] text-star-dim"
@@ -127,8 +127,8 @@ export default function Receive() {
   }
 
   return (
-    <div className="w-full max-w-[30rem]">
-      <p className="font text-center">Someone wrote something for you.</p>
+    <div className="w-full max-w-[30rem] px-2 pt-10">
+      <p className="font-message text-lg text-center">Someone wrote something for you.</p>
 
       {/* [5] was bg-black text-white */}
       <button

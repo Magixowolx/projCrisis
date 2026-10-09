@@ -4,7 +4,7 @@ import { useState } from 'react';
 import type { Slot, SlotId } from '@/lib/clauses';
 import type { Handle } from '@/lib/handles';
 import type { Identity } from '@/lib/visitor';
-
+import Link from 'next/link';
 type Status = 'idle' | 'sending' | 'sent' | 'error' | 'tooSoon';
 
 export default function Composer({ slots, identity }: { slots: Slot[]; identity: Identity }) {
@@ -59,10 +59,16 @@ export default function Composer({ slots, identity }: { slots: Slot[]; identity:
             setPicked({});
             setStatus('idle');
           }}
-          className="mt-4 underline"
+          className="mt-4 inline-block rounded border border-star-faint px-4 py-2 text-lg underline"
         >
           Write another
         </button>
+        <div className="mt-2">
+          <Link href="/" className="inline-block rounded border border-star-faint px-4 py-2 font-sans text-lg underline">
+            Return
+          </Link>
+        </div>
+
       </div>
     );
   }
@@ -71,14 +77,14 @@ export default function Composer({ slots, identity }: { slots: Slot[]; identity:
     <div className="mt-8 space-y-6"> 
       {ordered.slice(0, visibleCount).map((slot) => (
         <div key={slot.id} className="rise">
-          <label htmlFor={slot.id} className="block text-[clamp(0.8rem,calc(0.75rem+0.2vw),0.95rem)] font-medium text-star-dim">
+          <label htmlFor={slot.id} className="block text-base font-medium text-star">
             {slot.label}
           </label>
           <select
             id={slot.id}
             value={picked[slot.id] ?? ''}
             onChange={(e) => choose(slot.id, e.target.value)}
-            className="mt-1 w-full rounded border border-star-faint bg-night p-2 text-base text-star"
+            className="mt-1 w-full rounded border border-star-faint bg-night-deep p-2 text-base text-star-dim"
           >
             <option value="">Choose one…</option>
             {slot.clauses.map((c) => (
@@ -107,7 +113,7 @@ export default function Composer({ slots, identity }: { slots: Slot[]; identity:
           {!preview && <span className="text-star-dim">Your message appears here.</span>}
         </div>
         <p className="mt-6 text-right text-[0.975rem] italic text-star-dim">
-        {identity.signature} {identity.adjective} {identity.noun}
+          {identity.signature} {identity.adjective} {identity.noun}
         </p>
       </div>
 
