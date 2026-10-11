@@ -13,9 +13,12 @@
 body {
   background: linear-gradient(
     to bottom,
-    var(--color-star-dim) 0%,
-    var(--color-night-deep) 30%,
-    var(--color-night-deep) 100%
+    #5b5140 0%,
+    #403729 12%,
+    #292116 28%,
+    #19130c 45%,
+    #0d0905 65%,
+    #080604 100%
   );
 }
 
